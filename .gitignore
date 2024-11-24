@@ -1,0 +1,11 @@
+# Diretório de cache de compilação Python
+__pycache__/
+
+# Arquivos de cache do Python
+*.pyc
+*.pyo
+
+# Diretório do ambiente virtual (se você estiver usando um)
+venv/
+env/
+*.env

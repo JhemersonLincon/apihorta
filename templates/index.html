@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enviar Imagem para API</title>
+</head>
+<body>
+    <h1>Enviar Imagem para API</h1>
+    <form id="uploadForm" method="POST" enctype="multipart/form-data">
+        <label for="name">Nome da Planta:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="file">Selecione a imagem:</label>
+        <input type="file" id="file" name="file" accept="image/*" required><br><br>
+
+        <button type="submit">Enviar</button>
+    </form>
+
+    <div id="response">
+        <h2>Resposta da API:</h2>
+        <pre id="apiResponse"></pre>
+    </div>
+
+    <script>
+        const form = document.getElementById('uploadForm');
+        const apiResponse = document.getElementById('apiResponse');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Previne o envio padrão do formulário
+
+            const formData = new FormData(form);
+            const name = formData.get('name'); // Obtém o valor do campo 'name'
+
+            try {
+                const response = await fetch(`/plants/${name}`, {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    const result = await response.json(); // Supondo que sua API retorna JSON
+                    apiResponse.textContent = JSON.stringify(result, null, 2);
+                } else {
+                    apiResponse.textContent = `Erro: ${response.status}`;
+                }
+            } catch (error) {
+                apiResponse.textContent = `Erro ao conectar à API: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html>
